@@ -1,0 +1,647 @@
+<!--
+Copyright Google Inc. All Rights Reserved.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="description" content="Cast Command and Control Test Tool - Version 2">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Cactool V2</title>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-lite/1.3.0/material.cyan-blue.min.css">
+        <link rel="shortcut icon" href="images/favicon.png">
+        <script defer src="https://cdnjs.cloudflare.com/ajax/libs/material-design-lite/1.3.0/material.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/caststyles.css">
+    </head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-166330196-2"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+        gtag('config', 'UA-166330196-2');
+    </script>
+    <body>
+        <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+            <header class="mdl-layout__header  mdl-color-text--white">
+                <!--Begin Header-->
+                <div class="mdl-layout__header-row mdl-color--primary">
+                    <h3>Cactool</h3>
+                    <h5>&nbsp;v2</h5>
+                    <google-cast-launcher id="cast-button"></google-cast-launcher>
+                    <div style="background: transparent;" id="header-id-display">
+                        <div id="receiver-id-header" style="background: transparent;"></div>
+                        <div id="session-id-header" style="background: transparent;"></div>
+                    </div>
+                    <div class="control-button-style" id="control-button">
+                        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-control">
+                            <input class="mdl-switch__input" type="checkbox" id="switch-control" checked>
+                            <span class="mdl-switch__label">Toggle Control Buttons</span>
+                        </label>
+                    </div>
+                    <div class="mdl-layout-spacer"></div>
+                    <!-- Navigation -->
+                    <nav class="mdl-navigation">
+                        <a class="mdl-navigation__link" target="_blank" href="https://developers.google.com/cast/docs/debugging/cac_tool">
+                            <i class="material-icons" id="cactool-guide">menu_book</i>
+                            <div class="mdl-tooltip" for="cactool-guide">CaC Tool Guide</div>
+                        </a>
+                        <a class="mdl-navigation__link" target="_blank" href="https://developers.google.com/cast/docs/debugging/cast_debug_logger">
+                            <i class="material-icons" id="cast-debug-logger">bug_report</i>
+                            <div class="mdl-tooltip" for="cast-debug-logger">Cast Debug Logger</div>
+                        </a>
+                    </nav>
+                </div>
+                <!--End Header-->
+            </header>
+            <main class="mdl-layout__content">
+                <div class="mdl-layout__tab-panel is-active" id="debugtool">
+                    <div class="mdl-grid cac-grid" id="control-tabs">
+                        <div class="mdl-cell--12-col mdl-shadow--2dp">
+                            <div class="mdl-tabs mdl-js-tabs">
+                                <div class="mdl-tabs__tab-bar">
+                                    <a href="#tab1" class="mdl-tabs__tab is-active">Cast Connect & Logger Controls</a>
+                                    <a href="#tab2" class="mdl-tabs__tab">Load Media</a>
+                                    <a href="#tab3" class="mdl-tabs__tab">Media Control</a>
+                                    <a href="#tab4" class="mdl-tabs__tab">Other</a>
+                                </div>
+                                <!-- 
+                                    Cast Connect and Logger Controls Tab
+                                -->
+                                <div class="mdl-tabs__panel is-active" id="tab1">
+                                    <div class="mdl-grid">
+                                        <!-- Receiver App ID -->
+                                        <div class="mdl-cell mdl-cell--6-col cac-cell">
+                                            <div class="inline-block">
+                                                <h6 class="mdl-color-text--teal">
+                                                    Receiver App ID
+                                                    <i class="material-icons info-icon" id="help_receiver_app">help_outline</i>
+                                                    <div class="mdl-tooltip" for="help_receiver_app">Use the default receiver application ID provided (CC1AD845) or enter your own application ID. Scroll down for logs.</div>
+                                                </h6>
+                                            </div>
+                                            <div class="inline-block">
+                                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="float: left; min-width: 100px;">
+                                                    <input type="text" id="receiver-app-id-input" class="mdl-textfield__input">
+                                                    <label for="receiver-app-id-input" class="mdl-textfield__label">Your Receiver App ID</label>
+                                                </div>
+                                                <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored btn-colors" type="submit" id="set-app-id-btn">
+                                                    <span class="mdl-button__label">Set</span>
+                                                </button>
+                                                <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored btn-colors" type="submit" id="show-atv-options-btn">
+                                                    <span class="mdl-button__label">SHOW ANDROID TV OPTIONS</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <!-- Cast Connect Options -->
+                                        <div class="mdl-cell mdl-cell--6-col cac-cell cont" id="atv-launch-options">
+                                            <div class="overlay" id="atv-options-overlay">
+                                                <div class="error-icon-fill"></div>
+                                                <i class="material-icons error-icon">report</i>
+                                                <div class="overlay-text" id="chrome-version-text">
+                                                    This feature requires a Chrome Browser of version 87 or higher. In order to be able to use this feature, please update your Chrome browser or download <a href="https://www.google.com/chrome/canary/">Google Canary</a>
+                                                    <br>Current Chrome Version: 
+                                                </div>
+                                            </div>
+                                            <div class="inline-block">
+                                                <h6 class="mdl-color-text--teal">
+                                                    Launch Options
+                                                    <i class="material-icons info-icon" id="help_lo">help_outline</i>
+                                                    <div class="mdl-tooltip" for="help_lo">Enable Cast Connect by checking the Android TV box below before establishing a session with your ATV device. Additionally, you can set Launch Credentials for your Cast Connect session. Please note, Launch Credentials can only be set before a session is established.</div>
+                                                </h6>
+                                            </div>
+                                            <div class="inline-block">
+                                                <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="atv-checkbox">
+                                                    <input class="mdl-checkbox__input" type="checkbox" id="atv-checkbox"/>
+                                                    <span class="mdl-checkbox__label">androidReceiverCompatible</span>
+</label-->
+<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label creds-label">
+    <input class="mdl-textfield__input" type="text" id="atv-launch-creds-input">
+    <label class="mdl-textfield__label" for="atv-launch-creds-input">Launch Credentials</label>
+</div>
+<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect btn-colors creds-button" type="submit" id="set-launch-creds-btn">
+    <span class="mdl-button__label">SET</span>
+</button>
+</div></div>
+<!-- Receiver Debug Overlay -->
+<div class="mdl-cell mdl-cell--6-col cac-cell" id="receiver-debug-overlay">
+    <div class="inline-block">
+        <h6 class="mdl-color-text--teal">
+            Receiver Debug Overlay
+                                                    <i class="material-icons info-icon" id="help_rdo">help_outline</i>
+            <div class="mdl-tooltip" for="help_rdo">Show, hide or clear the debug overlay on the receiver during an ongoing session. This should not interrupt the session and show the messages being received on the receiver end.</div>
+        </h6>
+    </div>
+    <div>
+        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect btn-colors" id="toggle-rdo-button">
+            <span class="mdl-button__label" id="show-hide-toggle">SHOW</span>
+        </button>
+        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect btn-colors" id="clear-rdo-button">
+            <span class="mdl-button__label">CLEAR</span>
+        </button>
+        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect btn-colors" type="submit" id="clr-cache-rdo-button">
+            <span class="mdl-button__label">Clear Cache and Stop</span>
+        </button>
+    </div>
+</div>
+<!-- Resume/Leave Session -->
+<div class="mdl-cell mdl-cell--6-col cac-cell">
+    <div class="inline-block">
+        <h6 class="mdl-color-text--teal">
+            Resume Session (Optional)
+                                                    <i class="material-icons info-icon" id="help_resume">help_outline</i>
+            <div class="mdl-tooltip" for="help_resume">To join an existing cast session, enter the session ID and click on Resume session.</div>
+        </h6>
+    </div>
+    <div>
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" id="session-input-div" style="min-width: 100pw; float: left;">
+            <input class="mdl-textfield__input" type="text" style="width: 100%;" id="session-id-input">
+            <label class="mdl-textfield__label" for="session-id-input">Session ID</label>
+        </div>
+        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect btn-colors" id="resume-session-button">
+            <span class="mdl-button__label">Resume</span>
+        </button>
+        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect btn-colors" id="leave-session-button">
+            <span class="mdl-button__label">Leave</span>
+        </button>
+    </div>
+</div>
+<!-- Log Message Controls -->
+<div class="mdl-cell mdl-cell--6-col cac-cell">
+    <div class="inline-block">
+        <h6 class="mdl-color-text--teal">
+            Log Message Controls
+                                                    <i class="material-icons info-icon" id="help_logs">help_outline</i>
+            <div class="mdl-tooltip" for="help_logs">Controls to either insert a custom message, download(as .txt file) or clear logs as needed.</div>
+        </h6>
+    </div>
+    <div>
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="min-width: 100px; float: left;">
+            <input class="mdl-textfield__input" type="text" id="msg-log">
+            <label class="mdl-textfield__label" for="msg-log">Insert comments or dividers...</label>
+        </div>
+        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect btn-colors" id="insert-msg">Insert Message</button>
+        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect btn-colors" id="download-logging">Download</button>
+        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect btn-colors" id="clear-logging">Clear</button>
+    </div>
+</div>
+</div></div>
+<!--
+                                    Load Media Controls Tab
+                                -->
+<div class="mdl-tabs__panel" id="tab2">
+    <div class="mdl-grid" id="field-view">
+        <div class="mdl-cell mdl-cell--6-col cac-cell">
+            <div class="inline-block">
+                <h6 class="mdl-color-text--teal" style="width: 50%; float: left;">
+                    Load Request Fields
+                                                    <i class="material-icons info-icon" id="help_load_fields">help_outline</i>
+                    <div class="mdl-tooltip" for="help_load_fields">Select which type of Load Request you'd like to send to your receiver. Hover over the radio buttons to learn more about each request type.</div>
+                </h6>
+                <!-- Request Type -->
+                <div class="request-type-div">
+                    <div style="float: right; margin-left: 5px;">
+                        <input type="radio" id="media-radio" name="request-type" value="2"/>
+                        <label for="media-radio">LOAD</label>
+                    </div>
+                    <div class="mdl-tooltip" for="media-radio">Send a Media.LoadRequest object. Requires at least one of Content ID, Content URL or Entity URL fields to be populated in order to send out the request.</div>
+                    <div style="float: right; margin-left: 5px;">
+                        <input type="radio" id="cac-radio" name="request-type" value="1" checked/>
+                        <label for="cac-radio">LOAD_BY_ENTITY</label>
+                    </div>
+                    <div class="mdl-tooltip" for="cac-radio">Send a Load By Entity Request. Content URL and Content ID fields are not included for this request type.</div>
+                    <div style="float: right;">Select Request Type:</div>
+                </div>
+            </div>
+            <!-- Content URL -->
+            <div class="mdl-cell mdl-cell--8-col" style="float: left;">
+                <div>
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width:95%;">
+                        <input class="mdl-textfield__input" type="text" id="media-url" size="50" value="https://commondatastorage.googleapis.com/gtv-videos-bucket/CastVideos/mp4/BigBuckBunny.mp4" disabled>
+                        <label class="mdl-textfield__label" for="media-url">Content URL</label>
+                    </div>
+                </div>
+            </div>
+            <!-- Content ID -->
+            <div class="mdl-cell mdl-cell--4-col" style="float: left;">
+                <div>
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width: 95%;">
+                        <input class="mdl-textfield__input" type="text" id="media-id" value="bbb" size="10" disabled>
+                        <label class="mdl-textfield__label" for="media-id">Content ID</label>
+                    </div>
+                </div>
+            </div>
+            <!-- Entity URL -->
+            <div class="mdl-cell mdl-cell--8-col" style="float: left;">
+                <div>
+                    <div class=" mdl-textfield mdl-js-textfield mdl-textfield--floating-label" id="set-entity-div" style="width: 95%;">
+                        <input class="mdl-textfield__input" type="text" id="set-entity-input" value="myapp://playlist/1">
+                        <label class="mdl-textfield__label" for="set-entity-input">Entity</label>
+                    </div>
+                </div>
+            </div>
+            <!-- Credentials -->
+            <div class="mdl-cell mdl-cell--4-col" style="float: left;">
+                <div>
+                    <div class=" mdl-textfield mdl-js-textfield mdl-textfield--floating-label" id="set-credentials-div" style="width: 95%; ">
+                        <input class="mdl-textfield__input" type="text" id="set-credentials-input" value="testCredentials" size="30">
+                        <label class="mdl-textfield--floating-label has-placeholder mdl-textfield__label" for="set-credentials-input">Credentials</label>
+                    </div>
+                </div>
+            </div>
+            <!-- Shuffle -->
+            <div class="mdl-cell mdl-cell--4-col" style="float: left;">
+                <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="shuffle-checkbox">
+                    <input class="mdl-checkbox__input" type="checkbox" id="shuffle-checkbox">
+                    <span class="mdl-checkbox__label">Shuffle</span>
+                </label>
+            </div>
+            <!-- Contentfilter -->
+            <div class="mdl-cell mdl-cell--4-col" style="float: left;">
+                <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="contentfilter-checkbox">
+                    <input class="mdl-checkbox__input" type="checkbox" id="contentfilter-checkbox">
+                    <span class="mdl-checkbox__label">Content Filter</span>
+                </label>
+            </div>
+            <!-- Send Load Request Button -->
+            <div class="mdl-cell mdl-cell--4-col" style="float: left;">
+                <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored btn-colors" id="send-load-request" style="margin-bottom: 10px; float: left;">
+                    <span class="mdl-button__label">Send Request</span>
+                </button>
+            </div>
+        </div>
+        <!-- Custom Load Request -->
+        <div class="mdl-cell mdl-cell--6-col cac-cell">
+            <div class="mdl-cell mdl-cell--12-col">
+                <div class="inline-block">
+                    <h6 class="mdl-color-text--teal" style="width: 50%; float: left;">
+                        Custom Load Request
+                                                        <i class="material-icons info-icon" id="help_custom-load-object">help_outline</i>
+                        <div class="mdl-tooltip" for="help_custom-load-object">Use this field to define your own load request JSON object to be sent over the CAC namespace. No entries from the other view will be attached to this object hence, make sure the object is complete and follows JSON syntax. Use TAB for indentation, if required.</div>
+                    </h6>
+                    <div class="request-type-div">
+                        <div style="float: right; margin-left: 5px;">
+                            <input type="radio" id="custom-media-radio" name="custom-request-type" value="2"/>
+                            <label for="custom-media-radio">LOAD</label>
+                        </div>
+                        <div class="mdl-tooltip" for="custom-media-radio">Send a Media.LoadRequest object. Requires at least one of Content ID, Content URL or Entity URL fields to be populated in order to send out the request.</div>
+                        <div style="float: right; margin-left: 5px;">
+                            <input type="radio" id="custom-cac-radio" name="custom-request-type" value="1" checked/>
+                            <label for="custom-cac-radio">LOAD_BY_ENTITY</label>
+                        </div>
+                        <div class="mdl-tooltip" for="custom-cac-radio">Send a Load By Entity Request. Content URL and Content ID fields are not included for this request type.</div>
+                        <div style="float: right;">Select Request Type:</div>
+                    </div>
+                </div>
+                <div>
+                    <div class="mdl-textfield mdl-js-textfield json-object-div">
+                        <textarea class="mdl-textfield__input json-object-text" type="text" rows="10" id="json-object-txt"></textarea>
+                    </div>
+                </div>
+                <div class="inline-block">
+                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored btn-colors" id="send-custom-object" style="float:left;">
+                        <span class="mdl-button__label">Send Custom Load Request</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 
+                                    Media Controls Tab
+                                -->
+<div class="mdl-tabs__panel" id="tab3">
+    <div class="mdl-grid">
+        <!-- Playback Controls -->
+        <div class="mdl-cell mdl-cell--6-col cac-cell">
+            <div class="inline-block">
+                <h6 class="mdl-color-text--teal">
+                    Playback Controls
+                                                    <i class="material-icons info-icon" id="help_set_playback">help_outline</i>
+                    <div class="mdl-tooltip" for="help_set_playback">Playback controls are issued on the media namespace and shall trigger respective commands similar to those sent by a cast sender device.</div>
+                </h6>
+            </div>
+            <div>
+                <div class="icon-buttons">
+                    <button class="mdl-icon-button material-icons icon-button-style" id="prev-button">skip_previous</button>
+                    <div class="mdl-tooltip" for="prev-button">Previous</div>
+                </div>
+                <div class="icon-buttons">
+                    <button class="mdl-icon-button material-icons icon-button-style" id="pause-button">pause</button>
+                    <div class="mdl-tooltip" for="pause-button">Pause</div>
+                </div>
+                <div class="icon-buttons">
+                    <button class="mdl-icon-button material-icons icon-button-style" id="play-button">play_arrow</button>
+                    <div class="mdl-tooltip" for="play-button">Play</div>
+                </div>
+                <div class="icon-buttons">
+                    <button class="mdl-icon-button material-icons icon-button-style" id="stop-button">stop</button>
+                    <div class="mdl-tooltip" for="stop-button">Stop</div>
+                </div>
+                <div class="icon-buttons">
+                    <button class="mdl-icon-button material-icons icon-button-style" id="next-button">skip_next</button>
+                    <div class="mdl-tooltip" for="next-button">Next</div>
+                </div>
+                <div class="icon-buttons">
+                    <button class="mdl-icon-button material-icons icon-button-style" id="shuffle-button">shuffle</button>
+                    <div class="mdl-tooltip" for="shuffle-button">Shuffle</div>
+                </div>
+                <div class="icon-buttons">
+                    <button class="mdl-icon-button material-icons icon-button-style" id="repeat-one-button">repeat_one</button>
+                    <div class="mdl-tooltip" for="repeat-one-button">Repeat One</div>
+                </div>
+                <div class="icon-buttons">
+                    <button class="mdl-icon-button material-icons icon-button-style" id="repeat-all-button">repeat</button>
+                    <div class="mdl-tooltip" for="repeat-all-button">Repeat all</div>
+                </div>
+                <div class="icon-buttons">
+                    <button class="mdl-icon-button material-icons icon-button-style" id="repeat-off-button">not_interested</button>
+                    <div class="mdl-tooltip" for="repeat-off-button">Repeat Off</div>
+                </div>
+                <div class="icon-buttons">
+                    <button class="mdl-icon-button material-icons icon-button-style" id="play-again-button">replay</button>
+                    <div class="mdl-tooltip" for="play-again-button">Play Again</div>
+                </div>
+            </div>
+        </div>
+        <!-- Seek Into Media -->
+        <div class="mdl-cell mdl-cell--6-col cac-cell">
+            <div class="inline-block">
+                <h6 class="mdl-color-text--teal">
+                    Seek Into Media
+                                                    <i class="material-icons info-icon" id="help_seek_media">help_outline</i>
+                    <div class="mdl-tooltip" for="help_seek_media">Seeks can be relative or absolute. Enter a time in seconds here (>= 0). E.g., enter a value of 0 and click 'absolute seek to 'x' sec' to seek to the beginning of the content.</div>
+                </h6>
+            </div>
+            <div>
+                <div class="mdl-textfield mdl-js-textfield">
+                    <input class="mdl-textfield__input" type="number" id="seek-media-input">
+                    <label class="mdl-textfield__label" for="seek-media-input">Value in seconds. For ex: 30</label>
+                </div>
+                <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored btn-colors" id="seek-back-button">
+                    <span class="mdl-button__label">Back</span>
+                </button>
+                <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored btn-colors" id="seek-to-button">
+                    <span class="mdl-button__label">To</span>
+                </button>
+                <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored btn-colors" id="seek-forward-button">
+                    <span class="mdl-button__label">Forward</span>
+                </button>
+            </div>
+        </div>
+        <!-- Captions -->
+        <div class="mdl-cell mdl-cell--6-col cac-cell">
+            <div class="inline-block">
+                <h6 class="mdl-color-text--teal">
+                    Captions
+                                                    <i class="material-icons info-icon" id="help_captions">help_outline</i>
+                    <div class="mdl-tooltip" for="help_captions">Toggle Captions ON/OFF. Choose a Captions language and also choose if it is to be signaled as a suggested language - something not explicitly chosen by the user, but instead inferred from the user's spoken language.</div>
+                </h6>
+            </div>
+            <div>
+                <div class="inline-style">
+                    <div style="width: fit-content; float: left;">
+                        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="captions-lang-checkbox">
+                            <input class="mdl-checkbox__input" type="checkbox" id="captions-lang-checkbox" checked>
+                            <span class="mdl-checkbox__label">Suggested Language</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="mdl-textfield mdl-js-textfield">
+                    <input class="mdl-textfield__input" type="text" id="captions-lang-input">
+                    <label class="mdl-textfield__label" for="captions-lang-input">For Ex: en-US</label>
+                </div>
+                <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored btn-colors" id="captions-on-button">
+                    <span class="mdl-button__label">On</span>
+                </button>
+                <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored btn-colors" id="captions-off-button">
+                    <span class="mdl-button__label">Off</span>
+                </button>
+            </div>
+        </div>
+        <!-- Alternate Audio -->
+        <div class="mdl-cell mdl-cell--6-col cac-cell">
+            <div class="inline-block">
+                <h6 class="mdl-color-text--teal">
+                    Alternated Audio
+                                                    <i class="material-icons info-icon" id="help_audio_lang">help_outline</i>
+                    <div class="mdl-tooltip" for="help_audio_lang">(New) command to test switching to an anternate audio language track in the currently playing media. Please make sure you test with a stream that has two or more audio tracks. Choose the alternate audio track language to change to. Also, choose if it is to be signaled as a suggested language - something not explicitely chosen by the user, but instead inferred from the user's spoken language.</div>
+                </h6>
+            </div>
+            <div>
+                <div class="inline-style">
+                    <div style="width: fit-content; float: left;">
+                        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="audio-lang-checkbox">
+                            <input class="mdl-checkbox__input" type="checkbox" id="audio-lang-checkbox" checked>
+                            <span class="mdl-checkbox__label">Suggested Language</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="mdl-textfield mdl-js-textfield">
+                    <input class="mdl-textfield__input" type="text" id="audio-lang-input">
+                    <label class="mdl-textfield__label" for="audio-lang-input">For Ex: en-US</label>
+                </div>
+                <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored btn-colors" id="alternate-audio-button">
+                    <span class="mdl-button__label">Set Track</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Other Controls Tab -->
+<div class="mdl-tabs__panel" id="tab4">
+    <div class="mdl-grid">
+        <!-- User Actions -->
+        <div class="mdl-cell mdl-cell--6-col cac-cell">
+            <div class="inline-block">
+                <h6 class="mdl-color-text--teal">
+                    User Actions
+                                                    <i class="material-icons info-icon" id="help_user_actions">help_outline</i>
+                    <div class="mdl-tooltip" for="help_user_actions">User actions are issued in the Command & Control namespace. These will be available in the userAction callback in your receiver application. User actions also have an optional context that you could receive. E.g.: track, album etc. Please refer to the documentation for additonal details.</div>
+                </h6>
+            </div>
+            <div>
+                <div class="icon-buttons">
+                    <button class="mdl-icon-button material-icons icon-button-style" id="like-button" style="background: transparent; outline: none;">thumb_up</button>
+                    <div class="mdl-tooltip" for="like-button">Like</div>
+                </div>
+                <div class="icon-buttons">
+                    <button class="mdl-icon-button material-icons icon-button-style" id="dislike-button" style="background: transparent; outline: none;">thumb_down</button>
+                    <div class="mdl-tooltip" for="dislike-button">Dislike</div>
+                </div>
+                <div class="icon-buttons">
+                    <button class="mdl-icon-button material-icons icon-button-style" id="follow-button" style="background: transparent; outline: none;">add</button>
+                    <div class="mdl-tooltip" for="follow-button">Follow</div>
+                </div>
+                <div class="icon-buttons">
+                    <button class="mdl-icon-button material-icons icon-button-style" id="unfollow-button" style="background: transparent; outline: none;">clear</button>
+                    <div class="mdl-tooltip" for="unfollow-button">Unfollow</div>
+                </div>
+                <div class="icon-buttons">
+                    <button class="mdl-icon-button material-icons icon-button-style" id="flag-button" style="background: transparent; outline: none;">flag</button>
+                    <div class="mdl-tooltip" for="flag-button">Flag</div>
+                </div>
+                <div class="icon-buttons">
+                    <button class="mdl-icon-button material-icons icon-button-style" id="skip-ad-button" style="background: transparent; outline: none;">double_arrow</button>
+                    <div class="mdl-tooltip" for="skip-ad-button">Skip Ad</div>
+                </div>
+            </div>
+        </div>
+        <!-- Checking for Media Status -->
+        <div class="mdl-cell mdl-cell--6-col cac-cell">
+            <div class="inline-block">
+                <h6 class="mdl-color-text--teal">
+                    Checking for Media Status
+                                                    <i class="material-icons info-icon" id="help_media_status">help_outline</i>
+                    <div class="mdl-tooltip" for="help_media_status">
+                        (Media Status messages are sent from the receiver to update senders on current receiver status and are usually in response to commands on the media namespace. E.g. Play, Pause etc. If you use the Cast receiver SDK provided Media Manager to handle incoming media messages in your receiver application, this should work automatically (unless you have explicitely overriden the behavior). If you are managing messages on the media namespace without the Cast SDK provided Media Manager, please make sure that you send out media status messages for all incoming commands in the media namespace.<br>
+                        <br>Once you have issued a few media commands, please scroll to the Logs section to see if you received Media Status messages from your receiver application. These messages look like "Received MediaStatus update on media namespace"
+                    </div>
+                </h6>
+            </div>
+            <div>
+                <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored btn-colors" id="check-media-status-button">
+                    <span class="mdl-button__label">Check</span>
+                </button>
+            </div>
+        </div>
+        <!-- What's Playing -->
+        <div class="mdl-cell mdl-cell--3-col cac-cell">
+            <div class="inline-block">
+                <h6 class="mdl-color-text--teal">
+                    What's Playing
+                                                    <i class="material-icons info-icon" id="help_whats_playing">help_outline</i>
+                    <div class="mdl-tooltip" for="help_whats_playing">Command to check what is being played right now. Once a media is playing, please check the Logs section to see the title provided in the metadata of the media.</div>
+                </h6>
+            </div>
+            <div>
+                <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored btn-colors" id="whats-playing-button">
+                    <span class="mdl-button__label">Check</span>
+                </button>
+            </div>
+        </div>
+        <!-- Play String -->
+        <div class="mdl-cell mdl-cell--3-col cac-cell">
+            <div class="inline-block">
+                <h6 class="mdl-color-text--teal">
+                    Play String
+                                                    <i class="material-icons info-icon" id="help_play_string">help_outline</i>
+                    <div class="mdl-tooltip" for="help_play_string">A playString call is issued from your receiver application. This button triggers the 'STREAM_HIJACKED' playstring by simulating the scenario as part of a load request. Please refer to the documentation for more details.</div>
+                </h6>
+            </div>
+            <div>
+                <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored btn-colors" id="simulate-button">
+                    <span class="mdl-button__label">Simulate</span>
+                </button>
+            </div>
+        </div>
+        <!-- Display Status -->
+        <div class="mdl-cell mdl-cell--3-col cac-cell">
+            <div class="inline-block">
+                <h6 class="mdl-color-text--teal">
+                    Display Status
+                                                    <i class="material-icons info-icon" id="help_display_status">help_outline</i>
+                    <div class="mdl-tooltip" for="help_display_status">Applicable when casting to devices with a screen. When users ask for the currently playing media, applications will need to display status information of the currently playing media on the TV screen.</div>
+                </h6>
+            </div>
+            <div>
+                <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored btn-colors" id="display-status-button">
+                    <span class="mdl-button__label">Display</span>
+                </button>
+            </div>
+        </div>
+        <!-- Focus State -->
+        <div class="mdl-cell mdl-cell--3-col cac-cell">
+            <div class="inline-block">
+                <h6 class="mdl-color-text--teal">
+                    Focus State
+                                                    <i class="material-icons info-icon" id="help_focus_state">help_outline</i>
+                    <div class="mdl-tooltip" for="help_focus_state">
+                        This message is sent to your application if the platform is ducking your application's volume due to assistant activity such as listening to talk, talking back, alarms, etc. A state change event is sent when activity is started with NOT_IN_FOCUS state, and when activity ends with IN_FOCUS state.
+                                                        <br>Note that this is only available in device software version 1.26 and ahead.
+                    </div>
+                </h6>
+            </div>
+            <div>
+                <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored btn-colors" id="toggle-focus-button">
+                    <span class="mdl-button__label">Toggle</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+</div></div></div>
+<div class="mdl-grid cac-grid">
+    <div class="mdl-cell--12-col mdl-shadow--2dp">
+        <div class="mdl-tabs mdl-js-tabs">
+            <div class="mdl-tabs__tab-bar">
+                <a href="#logs" class="mdl-tabs__tab is-active">Log Messages</a>
+                <a href="#medInfo" class="mdl-tabs__tab">Media Info</a>
+                <a href="#medSession" id="meds" class="mdl-tabs__tab">Media Status</a>
+            </div>
+            <!-- Log Messages Tab -->
+            <div class="mdl-tabs__panel is-active" id="logs">
+                <div class="mdl-grid">
+                    <div class="mdl-cell mdl-cell--12-col">
+                        <div id="checkbox-tag-lists">
+                            <span class="span-style">Custom Tags: </span>
+                            <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-all-tags">
+                                <input class="mdl-checkbox__input" type="checkbox" id="checkbox-all-tags" checked>
+                                <span class="mdl-checkbox__label">All Tags</span>
+                            </label>
+                        </div>
+                        <div class="mdl-textfield mdl-js-textfield" style="width: 100%;">
+                            <div id="debugger-color-info"></div>
+                            <textarea class="mdl-textfield__input" type="text" rows="30" id="debugger-info" readonly></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Media Info Tab -->
+            <div class="mdl-tabs__panel" id="medInfo">
+                <div class="mdl-grid">
+                    <div class="mdl-cell mdl-cell--12-col">
+                        <h5>Media Info</h5>
+                        <pre id="media-info" style="white-space: pre-wrap;"></pre>
+                    </div>
+                </div>
+            </div>
+            <!-- Media Status Tab -->
+            <div class="mdl-tabs__panel" id="medSession">
+                <div class="mdl-grid">
+                    <div class="mdl-cell mdl-cell--12-col">
+                        <h5>Media Status</h5>
+                        <pre id="media-session" style="white-space: pre-wrap;"></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<div class="mdl-layout__tab-panel" id="help">
+    <div>asdf</div>
+</div>
+</main></div><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript" src="js/cactoolv2.js"></script>
+<script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
+</body></html>

@@ -1,0 +1,298 @@
+.mdl-color--primary {
+    background-color: rgb(0, 98, 111) !important
+}
+
+.mdl-color--primary-dark {
+    background-color: rgb(0, 50, 57) !important
+}
+
+#header-tab .mdl-layout__tab.is-active {
+    color: white !important
+}
+
+#header-tab .mdl-layout__tab {
+    color: rgb(132, 132, 132)
+}
+
+.cac-grid {
+    margin-right: 0px !important;
+    padding-right: 0px !important;
+}
+
+.control-button-style {
+    margin-left: 10px;
+}
+
+.cac-cell {
+    border: 1px dotted lightgray;
+    padding: 0px 10px 10px 10px;
+}
+
+.inline-style {
+    display: inline-block;
+}
+
+.cont {
+    position: relative;
+}
+
+.overlay {
+    position: absolute;
+    background-color: rgb(0, 98, 111);
+    opacity: 0.9;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    display: none;
+    cursor: pointer;
+    color: white;
+}
+
+#chrome-version-text a {
+    color: rgb(117, 226, 253);
+}
+
+.overlay-text {
+    font-size: 15px !important;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.chk-label {
+    display: flex;
+}
+
+.info-icon {
+color: lightsteelblue;
+font-size: 18px;
+margin-left: 5px;
+cursor: pointer;
+}
+
+.btn-colors {
+    color: white !important;
+    background-color: rgb(0, 98, 111) !important;
+    border-radius: 5px;
+}
+
+.toggle-switch-label {
+text-align: center;
+color: black;
+}
+
+.switch-container-style {
+align-content: center;
+margin-bottom: 10px;
+width: fit-content;
+}
+
+.switch-header-style {
+    display: inline-block;
+    margin-left: 5px;
+}
+
+.switch-style {
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.switch-label-style {
+    display: inline-block;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.icon-buttons {
+    float: left;
+    margin-right: 5px;
+}
+
+.icon-button-style {
+    background: transparent;
+    outline: none;
+    color: rgb(0, 98, 111);
+    font-size: 30px !important;
+    border-radius: 5px;
+}
+
+.tag-block {
+    display: inline-block;
+}
+
+#cast-button {
+--disconnected-color: rgb(145, 144, 144);
+--connected-color: white;
+opacity: 0.8;
+border: none;
+outline: none;
+width: 70px;
+height: 56px;
+margin: 5px;
+display: block;
+align-self: center;
+}
+
+#header-id-display, #receiver-id-header, #session-id-header {
+    background: transparent !important
+}
+
+textarea {
+    resize: none;
+}
+
+nav a {
+    color: white !important
+}
+
+#controlButton {
+    margin-left: 10px;
+}
+.icon-button-size {
+    font-size: 48px !important
+}
+
+.mdl-checkbox {
+    display: inline;
+    padding-right: 20px;
+}
+
+.mdl-checkbox__box-outline {
+    width: 14px;
+    height: 14px;
+}
+
+.span-style {
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+.creds-button {
+    margin-bottom: 30px;
+    margin-left: 5px;
+}
+
+.creds-label {
+    margin-left:20px ;
+}
+
+#debugger-info {
+    display: none;
+    color: #000000;
+    font-size: 14px;
+}
+
+#tags-checkbox {
+    font-size: 14px;
+    padding-top: 10px;
+}
+
+.mdl-checkbox__label {
+    font-size: 14px;
+    line-height: 14px;
+    vertical-align: middle;
+}
+
+.json-object-div {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+    width: 100%;
+}
+
+.json-object-text {
+    background-color: #f7faf8;
+    color: #000000;
+    font-size: 14px;
+}
+
+.logger-block {
+    padding: 3px 0px 2px 20px;
+    font-size: 14px;
+    color: #000000;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.logger-warning {
+    color: #663300;
+    background-color: #FEF9E7;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.logger-error {
+    color: #ff0000;
+    background-color: #F9EBEA;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.logger-div {
+    color: #757575;
+    background-color: #e5e7e9;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.cac-response-div {
+    color: #1a2573;
+    background-color: #abc3f7;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.cac-error-div {
+    color: #ff0000;
+    background-color: #abc3f7;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.media-response-div {
+    color: #146b6b;
+    background-color: #c8f7f7;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.media-error-div {
+    color: #ff0000;
+    background-color: #c8f7f7;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.playing-response-div {
+    color: #ffffff;
+    background-color: #454545;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.mdl-tooltip {
+    font-size: 12px;
+    max-width: 200px;
+}
+
+.error-icon {
+    position: absolute;
+    color: #ff0000;
+    z-index: 2;
+    top: 50%;
+    left: 17%;
+    transform: translate(-50%, -50%);
+    font-size: 60px !important;
+}
+
+.error-icon-fill {
+    position: absolute;
+    z-index: 1;
+    background-color: white;
+    width: 10px;
+    height: 40px;
+    top: 50%;
+    left: 17%;
+    transform: translate(-50%, -50%);
+}
+
+.request-type-div {
+    width: 50%;
+    float: right;
+    margin-top: 25px;
+}
